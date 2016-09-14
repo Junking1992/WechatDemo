@@ -72,15 +72,19 @@ public abstract class AutoReply {
 	 */
 	public synchronized String reply(HttpServletRequest request) {
 		try {
-			// 解密、解析
-			root = DocumentHelper.parseText(decoderXML(request)).getRootElement();
-			httpServletRequest = request;
-			// 转发
-			return replyController(root);
+			// 解密
+			String xmlContent = decoderXML(request);
+			// 解析
+			if(!xmlContent.isEmpty()){
+				root = DocumentHelper.parseText(xmlContent).getRootElement();
+				httpServletRequest = request;
+				// 转发
+				return replyController(root);
+			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		return "";
+		return "success";
 	}
 
 	/**
@@ -102,6 +106,9 @@ public abstract class AutoReply {
 			StringBuffer buf = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				buf.append(line);
+			}
+			if(buf.toString().trim().isEmpty()){
+				return "";
 			}
 			// 2.解密
 			WXBizMsgCrypt wxCeypt = new WXBizMsgCrypt(TOKEN, ENCODINGAESKEY, APPID);
