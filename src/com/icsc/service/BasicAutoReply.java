@@ -1,10 +1,5 @@
 package com.icsc.service;
 
-import static com.icsc.service.AccessTokenListener.getAccessToken;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.icsc.core.AutoReply;
 
 public class BasicAutoReply extends AutoReply {
@@ -28,15 +23,11 @@ public class BasicAutoReply extends AutoReply {
 
 	@Override
 	public String doText(String content) {
-		if ("at".equalsIgnoreCase(content)) {
-			return text(getAccessToken());
-		}
-		return text("Yes!" + content);
+		return text("您发送的是:" + content);
 	}
 
 	@Override
 	public String doImage(String picUrl, String mediaId) {
-		String http = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + AccessTokenListener.getAccessToken() + "&type=image&";
 		return image(mediaId);
 	}
 
@@ -65,44 +56,4 @@ public class BasicAutoReply extends AutoReply {
 		return text("title:" + title + "\ndescription:" + description + "\nurl:" + url);
 	}
 	
-	public static void main(String[] args) {
-		JSONObject root = new JSONObject();
-		JSONArray array = new JSONArray();
-		root.put("button", array);
-		
-		//a
-		JSONObject a = new JSONObject();
-		array.put(a);
-		a.put("type", "click");
-		a.put("name", "今日歌曲");
-		a.put("key", "V1001_TODAY_MUSIC");
-		
-		//b
-		JSONObject b = new JSONObject();
-		array.put(b);
-		b.put("name","菜单");
-		JSONArray b_array = new JSONArray();
-		b.put("sub_button",b_array);
-		//b_a
-		JSONObject b_a = new JSONObject();
-		b_array.put(b_a);
-		b_a.put("type", "view");
-		b_a.put("name", "搜索");
-		b_a.put("url", "http://www.soso.com/");
-		//b_b
-		JSONObject b_b = new JSONObject();
-		b_array.put(b_b);
-		b_b.put("type", "view");
-		b_b.put("name", "视频");
-		b_b.put("url", "http://v.qq.com/");
-		//b_c
-		JSONObject b_c = new JSONObject();
-		b_array.put(b_c);
-		b_c.put("type", "click");
-		b_c.put("name", "赞一下我们");
-		b_c.put("key", "V1001_GOOD");
-		
-		System.out.println(root);
-	}
-
 }

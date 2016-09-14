@@ -64,7 +64,7 @@ public class AccessTokenListener implements ServletContextListener {
 				}
 			};
 			Thread t = new Thread(runnable);
-			t.start();
+//			t.start();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
