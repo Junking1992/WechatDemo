@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.icsc.service.BasicAutoReply;
 
-
+//微信控制类
 public class WechatController extends HttpServlet{
 	
 	private BasicAutoReply ba = BasicAutoReply.getInstance();
